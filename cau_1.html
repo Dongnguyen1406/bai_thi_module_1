@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    let number = +prompt("enter number");
+    if (number <= 0 || number > 50 || !Number.isInteger(number) || number === "") {
+        alert("Vui lòng nhập độ dài mảng nhỏ hơn hoặc bằng 50!");
+    } else {
+        let arr = new Array(number);
+        for (let i = 0; i < arr.length; i++) {
+            arr[i]= +prompt(`nhập phân từ mảng thứ ${i}`);
+        }
+        document.write(arr + "<br>");
+
+        function isPrime(number) {
+            if (number < 2) {
+                return false;
+            }
+            for (let i = 2; i < number; i++) {
+                if (number % i === 0) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        let array2 = [];
+        for (let i = 0; i < arr.length; i++) {
+            if (isPrime(arr[i])) {
+                array2.push(arr[i]);
+            }
+        }
+        document.write(array2);
+    }
+</script>
+</body>
+</html>

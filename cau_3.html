@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            padding-left: 20px;
+
+        }
+
+        .top {
+            background-color: #f2f2f2;
+            padding: 20px;
+            padding-right: 10px;
+            width: 50%;
+        }
+
+        input[type=text] {
+            height: 30px;
+            width: 150px;
+            padding-left: 10px;
+        }
+        input[type=number] {
+            height: 30px;
+            width: 150px;
+            padding-left: 10px;
+        }
+
+        input[type=button] {
+            height: 35px;
+            border-radius: 3px;
+            border: none;
+            padding: 10px;
+            padding-right: 20px;
+            padding-left: 20px;
+            background-color: green;
+            color: white;
+        }
+
+        td {
+            padding-left: 0px;
+            padding-top: 7px;
+            padding-bottom: 7px;
+            text-align: center;
+        }
+
+        td {
+            border: none;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #ededed;
+        }
+
+        .title {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+<form>
+    <h2>Thêm mới sổ tiết kiệm</h2>
+    <div class="top">
+        <input type="text" placeholder="Mã sổ" id="maSo">
+        <input type="text" placeholder="Loại tiết kiệm" id="loaiSo">
+        <input type="text" placeholder="Tên khách" id="tenKhachHang">
+        <input type="text" placeholder="Chứng minh" id="cccd">
+        <input type="text" placeholder="Ngày mở" id="ngay">
+        <input type="text" placeholder="Số tiền" id="tongTien">
+        <input type="button" onclick="quanLySoTietKiem.themSoTietKiem()" value="Add">
+    </div>
+    <div class="bottom">
+        <h2>Hiển thị danh sách sổ tiết kiệm</h2>
+        <div class="title">
+        </div>
+        <p id="danhSach"></p>
+    </div>
+</form>
+<script>
+    class SoTietKiem{
+        constructor(id, type, nameCustomer, cccd, date, totalMoney) {
+            this.id = id;
+            this.type = type;
+            this.nameCustomer = nameCustomer;
+            this.cccd = cccd;
+            this.date = date;
+            this.totalMoney = totalMoney;
+        }
+        getId(){
+            return this.id;
+        }
+        getType(){
+            return this.type;
+        }
+        getNameCustomer(){
+            return this.nameCustomer;
+        }
+        getCccd(){
+            return this.cccd;
+        }
+        getDate(){
+            return this.date;
+        }
+        getTotalMoney(){
+            return this.totalMoney;
+        }
+
+        setId(id){
+            this.id = id;
+        }
+        setType(type){
+            this.type = type;
+        }
+        setNameCustomer(name){
+            this.nameCustomer = name;
+        }
+        setCccd(cccd){
+            this.cccd = cccd;
+        }
+        setDate(date){
+            this.date = new Date();
+        }
+        setTotalMoney(totalMoney){
+            this.totalMoney = totalMoney;
+        }
+    }
+    class QuanLySoTietKiem{
+        constructor() {
+            this.soTietKiem = [];
+            this.idIncreasing = 1;
+        }
+
+        themSoTietKiem(){
+            let maSo = document.getElementById('maSo').value;
+            let loaiSo = document.getElementById('loaiSo').value;
+            let tenKhachHang = document.getElementById('tenKhachHang').value;
+            let cccd = document.getElementById('cccd').value;
+            let ngayMo = document.getElementById('ngay').value;
+            let tongTien = document.getElementById('tongTien').value;
+            if (maSo.trim() === "" || maSo.length > 5 ||
+                loaiSo.trim() === "" || maSo.length > 10 ||
+                tenKhachHang.trim() === "" || maSo.length > 30 ||
+                cccd.trim() === "" || isNaN(cccd) ||
+                ngayMo.trim() === "" ||
+                tongTien.trim() === "" || isNaN(tongTien) ) {
+                alert("Vui lòng nhập thông tin sổ tiết kiệm đầy đủ");
+            } else {
+                let soTietKiemMoi = new SoTietKiem(this.idIncreasing++, maSo, loaiSo, tenKhachHang, cccd, ngayMo,tongTien);
+                this.soTietKiem.push(soTietKiemMoi);
+                document.getElementById("maSo").value = "";
+                document.getElementById("loaiSo").value = "";
+                document.getElementById("tenKhachHang").value = "";
+                document.getElementById("cccd").value = "";
+                document.getElementById("ngay").value = "";
+                document.getElementById("tongTien").value = "";
+                this.display(this.soTietKiem);
+
+            }
+
+        }
+
+        xoaSoTietKiem(index) {
+            let confirmDelete = confirm("Are you sure you want to delete product: " + this.soTietKiem[index].getNameCustomer() + "?");
+            if (confirmDelete) {
+                this.soTietKiem.splice(index, 1);
+            }
+            this.display(this.soTietKiem);
+        }
+
+        display() {
+            let danhSachSoTietKiem = `<table>
+                           `;
+            for (let i = 0; i < this.soTietKiem.length; i++) {
+                danhSachSoTietKiem += `<tr>
+                                <td width="400px">${this.soTietKiem[i].getId()}</td>
+                                <td width="400px">${this.soTietKiem[i].getType()}</td>
+                                <td width="400px">${this.soTietKiem[i].getNameCustomer()}</td>
+                                <td width="400px">${this.soTietKiem[i].getCccd()}</td>
+                                <td width="400px">${this.soTietKiem[i].getDate()}</td>
+                                <td width="400px">${this.soTietKiem[i].getTotalMoney()}</td>
+                                 <td width="300px">
+                                <input type="button" onclick="quanLySoTietKiem.xoaSoTietKiem(${i})" value="Delete">
+                                </td>
+                             </tr>`;
+            }
+            danhSachSoTietKiem += "</table>";
+            document.getElementById("danhSach").innerHTML = danhSachSoTietKiem;
+        }
+    }
+    const quanLySoTietKiem = new QuanLySoTietKiem();
+
+</script>
+</body>
+</html>

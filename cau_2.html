@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    let phanSo1 = new Array(2);
+    let phanSo2 = new Array(2);
+    for (let i = 0; i < phanSo1.length; i++) {
+        if (phanSo1[0] === 0) {
+            alert("Tử số không được là số 0");
+            break;
+        } else {
+            phanSo1[i] = +prompt("Nhập tử và mẫu phân số thứ nhất");
+        }
+        if (phanSo2[0] === 0 ) {
+            alert("Tử số không được là số 0");
+            break;
+        } else {
+            phanSo2[i] = +prompt("Nhập tử và mẫu phân số thứ hai");
+        }
+    }
+    function compareNumber(arr1, arr2) {
+        for (let i = 0; i < arr1.length; i++) {
+            if (arr1[i] * arr2[i+1] === arr1[i+1] * arr2[i]) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    document.write(compareNumber(phanSo1, phanSo2));
+
+</script>
+</body>
+</html>
